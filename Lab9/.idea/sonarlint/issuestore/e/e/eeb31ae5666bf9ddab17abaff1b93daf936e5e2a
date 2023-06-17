@@ -1,0 +1,13 @@
+
+T
+java:S1854H">Remove this useless assignment to local variable "newStudent".(ÿ€ì™
+N	java:S106$"9Replace this use of System.out or System.err by a logger.(ç™áÁ
+E
+java:S1481H"/Remove this unused "newStudent" local variable.(ÿ€ì™
+Q	java:S125I"<This block of commented-out lines of code should be removed.(¡€§û
+S	java:S106Q"9Replace this use of System.out or System.err by a logger.(ÉàÇ´úÿÿÿÿ
+Q	java:S125\"<This block of commented-out lines of code should be removed.(Ÿìü
+Q	java:S125^"<This block of commented-out lines of code should be removed.(µœŠà
+N	java:S106g"9Replace this use of System.out or System.err by a logger.(òÅîÁ
+N	java:S106h"9Replace this use of System.out or System.err by a logger.(Ö£Ùš
+S	java:S106l"9Replace this use of System.out or System.err by a logger.(¹¦…‡úÿÿÿÿ
