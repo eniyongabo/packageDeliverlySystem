@@ -1,6 +1,11 @@
 package packagetracking.config;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import packagetracking.service.PackageTrackingUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,8 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true, proxyTargetClass = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private UserDetailsService userDetailsService;
@@ -44,15 +48,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers()
                 .frameOptions().sameOrigin()
                 .and()
+                .cors().and()
                 .authorizeRequests()
                 .antMatchers("/resources/static/**", "/images/**", "/fonts/**", "/css/**","/js/**", "/packagetracking/public/**").permitAll()
                 .antMatchers("/", "/packagetracking/**").permitAll()
-                .antMatchers("/new_package","/tracking_list").hasRole("CUSTOMER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/packagetracking/public/login")
-                .defaultSuccessUrl("/packagetracking/")
+                .defaultSuccessUrl("/default")
                 .failureUrl("/packagetracking/public/login?error")
                 .permitAll()
                 .and()
@@ -63,6 +67,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler());
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     private AccessDeniedHandler accessDeniedHandler() {
